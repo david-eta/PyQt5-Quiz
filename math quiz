@@ -1,0 +1,248 @@
+import sys
+import math
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+
+
+sequence= str(list(range(1,19,2)))
+
+
+ans1 = int(5**2)
+ans2 = int(2+2+3+5-4-6)
+ans3 = int(math.gcd(2, 36))
+ans4 = int(0.9 * 200)
+ans5 = int(ans1 + ans2 + ans3 + ans4)
+
+
+class Window(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        
+        self.init_ui()
+        
+    def init_ui(self):
+
+        #Window...
+        self.setWindowTitle('Line Edit With Actions')
+        self.setWindowIcon(QIcon('c++.jpg'))
+        self.setGeometry(50, 900, 900, 900)
+        #Layouts...
+        vbox = QVBoxLayout()
+        self.setLayout(vbox)
+        scroll = QScrollArea(self)
+        vbox.addWidget(scroll)
+        scroll.setWidgetResizable(False)
+        scrollContent = QWidget(scroll)
+        scrollLayout = QVBoxLayout(scrollContent)
+        scroll.setAlignment(Qt.AlignCenter)
+        scrollLayout.setSizeConstraint(QLayout.SetFixedSize)
+        #vbox.setSizeConstraint(QLayout.SetFixedSize)
+        
+        #Intro Labels
+        self.lab1 = QLabel('Ntoe\'s Math Quiz')
+        self.lab1.setFont(QFont('Arial',14))
+        self.lab1.setAlignment(Qt.AlignCenter)
+        self.lab2 = QLabel('You will face a series of challenging questions are you up for the task?')
+        self.lab3 = QLabel()
+        self.yes1 = QRadioButton('Yes')
+        self.no1 = QRadioButton('No')
+        self.sel1 = QPushButton('Select')
+        #Number1 Labels
+        self.ques1= QLabel('Question 1\nWhat is 5 squared?')
+        self.le1 = QLineEdit()
+        self.clear1 = QPushButton('Clear')
+        self.sub1 = QPushButton('Submit')
+        self.res1 = QLabel(' ')
+        #Number2 Labels
+        self.ques2 = QLabel('Question 2\nWhat is 2+2+3+5-4-6? ')
+        self.le2 = QLineEdit()
+        self.clear2 = QPushButton('Clear')
+        self.sub2 = QPushButton('Submit')
+        self.res2 = QLabel(' ')
+        #Number3 Labels
+        self.ques3 = QLabel('Question 3\nWhat is the Highest Common Factor of 2 and 36?')
+        self.le3 = QLineEdit()
+        self.clear3 = QPushButton('Clear')
+        self.sub3 = QPushButton('Submit')
+        self.res3 = QLabel(' ')
+        #Number4 Labels
+        self.ques4 = QLabel('Question 4\nWhat is 90% of 200?')
+        self.le4 = QLineEdit()
+        self.clear4 = QPushButton('Clear')
+        self.sub4 = QPushButton('Submit')
+        self.res4 = QLabel(' ')
+        #Number5 Labels
+        self.ques5 = QLabel('Question 5\nWhat is the total of your previous answers?')
+        self.le5 = QLineEdit()
+        self.clear5 = QPushButton('Clear')
+        self.sub5 = QPushButton('Submit')
+        self.res5 = QLabel(' ')
+        #Number6 Labels
+        self.ques6 = QLabel('Question 6')
+        self.list6 = QLabel(sequence)
+        self.ques61 = QLabel('The list above is a sequence of what numbers?')
+        self.le6 = QLineEdit()
+        self.try6 = self.le6.lower()
+        self.clear6 = QPushButton('Clear')
+        self.sub6 = QPushButton('Submit')
+        self.res6 = QLabel(' ')
+        #Answers
+        self.ans1 = str(ans1)
+        self.ans2 = str(ans2)
+        self.ans3 = str(ans3)
+        self.ans4 = str(ans4)
+        self.ans5 = str(ans5)
+        self.ans6 = 'odd'
+        
+        #Intro Widgets
+        scrollLayout.addWidget(self.lab1)
+        scrollLayout.addWidget(self.lab2)
+        scrollLayout.addWidget(self.yes1)
+        scrollLayout.addWidget(self.no1)
+        scrollLayout.addWidget(self.sel1)
+        scrollLayout.addWidget(self.lab3)
+        #Number1 Widgets
+        scrollLayout.addWidget(self.ques1)
+        scrollLayout.addWidget(self.le1)
+        scrollLayout.addWidget(self.clear1)
+        scrollLayout.addWidget(self.sub1)
+        scrollLayout.addWidget(self.res1)
+        #Number2 Widgets
+        scrollLayout.addWidget(self.ques2)
+        scrollLayout.addWidget(self.le2)
+        scrollLayout.addWidget(self.clear2)
+        scrollLayout.addWidget(self.sub2)
+        scrollLayout.addWidget(self.res2)
+        #Number3 Widgets
+        scrollLayout.addWidget(self.ques3)
+        scrollLayout.addWidget(self.le3)
+        scrollLayout.addWidget(self.clear3)
+        scrollLayout.addWidget(self.sub3)
+        scrollLayout.addWidget(self.res3)
+        #Number4 Widgets
+        scrollLayout.addWidget(self.ques4)
+        scrollLayout.addWidget(self.le4)
+        scrollLayout.addWidget(self.clear4)
+        scrollLayout.addWidget(self.sub4)
+        scrollLayout.addWidget(self.res4)
+        #Number5 Widgets
+        scrollLayout.addWidget(self.ques5)
+        scrollLayout.addWidget(self.le5)
+        scrollLayout.addWidget(self.clear5)
+        scrollLayout.addWidget(self.sub5)
+        scrollLayout.addWidget(self.res5)
+        #Number6 Widgets
+        scrollLayout.addWidget(self.ques6)
+        scrollLayout.addWidget(self.list6)
+        scrollLayout.addWidget(self.ques61)
+        scrollLayout.addWidget(self.le6)
+        scrollLayout.addWidget(self.clear6)
+        scrollLayout.addWidget(self.sub6)
+        scrollLayout.addWidget(self.res6)
+
+        #Select Signal
+        self.sel1.clicked.connect(lambda: self.sure(self.yes1.isChecked(), self.lab3))
+        #Clear Signals
+        self.clear1.clicked.connect(self.clear_text)
+        self.clear2.clicked.connect(self.clear_text2)
+        self.clear3.clicked.connect(self.clear_text3)
+        self.clear4.clicked.connect(self.clear_text4)
+        self.clear5.clicked.connect(self.clear_text5)
+        self.clear6.clicked.connect(self.clear_text6)
+        #Submit Signals
+        self.sub1.clicked.connect(self.submit1)
+        self.sub2.clicked.connect(self.submit2)
+        self.sub3.clicked.connect(self.submit3)
+        self.sub4.clicked.connect(self.submit4)
+        self.sub5.clicked.connect(self.submit5)
+        self.sub6.clicked.connect(self.submit6)
+
+        scroll.setWidget(scrollContent)
+        self.show()
+ 
+    def sure(self, chk, lab3):
+        if chk == True:
+            lab3.setText('That\'s Fantastic! Let\'s Proceed')
+        else:
+            lab3.setText('Don\'t Worry, it\'s not that hard')
+            
+    def clear_text(self):
+        self.le1.clear()    
+    def clear_text2(self):
+        self.le2.clear()
+    def clear_text3(self):
+        self.le3.clear()
+    def clear_text4(self):
+        self.le4.clear()
+    def clear_text5(self):
+        self.le5.clear()
+    def clear_text6(self):
+        self.le6.clear()
+               
+    def submit1(self):
+        sender = self.sender()
+        if sender.text() == 'Submit' and self.le1.text() == self.ans1:
+            self.res1.setText('Correct')
+            
+        else:
+            self.res1.setText('Wrong')
+       
+    def submit2(self):
+        sender = self.sender()
+        if sender.text() == 'Submit' and self.le2.text() == self.ans2:
+            self.res2.setText('Correct')
+            
+        else:
+            self.res1.setText('Wrong')
+
+    def submit3(self):
+        sender = self.sender()
+        if sender.text() == 'Submit'and self.le3.text() == self.ans3:
+            self.res3.setText('Correct')
+            
+        else:
+            self.res3.setText('Wrong')
+
+    def submit4(self):
+        sender = self.sender()
+        if sender.text() == 'Submit' and self.le4.text() == self.ans4:
+            self.res4.setText('Correct')
+            
+        else:
+            self.res4.setText('Wrong')
+            
+    def submit5(self):
+        sender = self.sender()
+        if sender.text() == 'Submit' and self.le5.text() == self.ans5:
+            self.res5.setText('Correct')
+            #score.append(1)
+            #return score
+        else:
+            self.res5.setText('Wrong')
+                
+    def submit6(self):
+        sender = self.sender()
+        if sender.text() == 'Submit' and self.le6.text().lower() == self.ans6:
+            self.res6.setText('Correct')
+            
+        else:
+            self.res6.setText('Wrong')
+            
+class Status(QMainWindow):
+    def __init__(self):
+        super(Status, self).__init__()
+
+        self.form_widget = Window() #Calling the other class
+        self.setCentralWidget(self.form_widget)
+        self.init_ui()
+        
+    def init_ui(self):
+    
+        self.statusBar().showMessage('Inspired by Fisayo Adeyemi')
+        self.show()
+
+app = QApplication(sys.argv)
+window = Status()
+sys.exit(app.exec_())
